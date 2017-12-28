@@ -1,0 +1,33 @@
+{
+  "name": "JWT_KOA_auth",
+  "version": "1.0.0",
+  "description": "JWT authentication in Koa Node.js framework",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "main": "",
+  "dependencies": {
+    "asyncawait": "^1.0.6",
+    "iconv-lite": "^0.4.19",
+    "jsonwebtoken": "^7.3.0",
+    "koa": "^2.2.0",
+    "koa-bodyparser": "^4.1.0",
+    "koa-json": "^2.0.2",
+    "koa-logger": "^2.0.1",
+    "koa-passport": "^3.0.0",
+    "koa-router": "^7.0.1",
+    "koa-send": "^4.1.2",
+    "koa-static": "^3.0.0",
+    "koa2-cors": "^2.0.5",
+    "mkdirp": "^0.5.1",
+    "mkdirp-promise": "^5.0.1",
+    "mongoose": "^4.9.0",
+    "msnodesqlv8": "^0.4.6",
+    "mssql": "^4.1.0",
+    "passport-jwt": "^2.2.1",
+    "passport-local": "^1.0.0",
+    "socket.io": "^1.7.4",
+    "socketio-jwt": "^4.5.0",
+    "windows-1252": "^1.0.0"
+  }
+}
