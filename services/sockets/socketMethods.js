@@ -28,7 +28,7 @@ const socketMethods = ((sqlMethods) => {
     };
 
     const sendEventToPatrol = (event, object) => {
-        console.log( object );
+
         emitToUserById(event.PatrolId, SOCKET_EVENTS.call, {object: object, event: event});
     };
 

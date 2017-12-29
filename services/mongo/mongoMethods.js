@@ -97,6 +97,8 @@ const mongoMethods = (() => {
                 { $set: { ...finalObj } },
                 {
                     upsert: true,
+                    new: true,
+                    returnNewDocument: true,
                     setDefaultsOnInsert: true
                 }
             );

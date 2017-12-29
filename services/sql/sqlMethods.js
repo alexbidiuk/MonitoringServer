@@ -36,21 +36,20 @@ const sqlMethods = (() => {
         };
 
         const getEventsProcedureExecutor = async () => {
-             pool = await poolConnection;
+            pool = await poolConnection;
             let request = pool.request();
             request.stream = true;
             request.execute(PROCEDURE_NAMES.getEvents);
 
-           return request;
+            return request;
         };
 
         const getObjectProcedureExecutor = async (account) => {
              pool = await poolConnection;
             let request = pool.request();
             let result = await request
-                .input('Account', sql.VarChar(sql.MAX), account)
+                .input('Account', sql.NVarChar(sql.MAX), account)
                 .execute(PROCEDURE_NAMES.getObject);
-
             return result.recordset[0];
         };
 
@@ -60,7 +59,6 @@ const sqlMethods = (() => {
             let result = await request
                 .input('ObjectId', sql.Int, objectId)
                 .execute(PROCEDURE_NAMES.getObjectImages);
-
 
             return result.recordset;
         };
@@ -93,7 +91,6 @@ const sqlMethods = (() => {
                 let mongoObject = await mongoMethods.objectEntityHandler(object, objectPics);
 
                 return mongoObject;
-
             } catch (err) {
                 console.log(err);
             }
@@ -104,10 +101,10 @@ const sqlMethods = (() => {
             let req = await getEventsProcedureExecutor();
             req.on('row', async event => {
                 try {
+
                     const object = await getObject( event.Account );
 
-                    eventsService.obtainedEventHandler(event, object);
-
+                    eventsService.obtainedEventHandler( event, object );
                 } catch (err) {
                     console.log(err);
                 }
