@@ -5,6 +5,8 @@ const router = new Router();
 const { sqlDbLogin, jwtStrat, localStrat, roleCheck } = require('../middlewares/auth-middleware');
 const { JWT_SECRET } = require('../variables/constants');
 const ROLES = require('../variables/roles');
+const usersController = require('../controllers/users-controller');
+const conHand = require('../services/utils/controllerHandler');
 const User = require('../models/user');
 const Event = require('../models/event');
 const Object = require('../models/object');
@@ -101,26 +103,7 @@ router.get('/patrols', async ctx => {
 
 });
 
-router.post('/patrol/changePass', async ctx => {
-
-    try{
-
-       await User.updateOne(
-           {'_id': ctx.request.body.id},
-           {
-               $set: {
-                   'Password': ctx.request.body.password
-               }
-           }
-
-       );
-       ctx.body = 'Пароль успешно изменен.'
-
-    } catch(err) {
-        ctx.throw()
-    }
-
-});
+router.post('/patrol/changePass', conHand(usersController.changeUserPass, (ctx, next) => [ctx.request.body.id, ctx.request.body.password]));
 
 
 

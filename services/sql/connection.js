@@ -4,7 +4,8 @@ const config = require('../../config/sql').config;
 const poolConnection = (() => {
 
         sql.on('error', err => {
-            console.warn('SQL error', err);
+            console.log('SQL error', err);
+            return;
         });
 
         return sql.connect(config);

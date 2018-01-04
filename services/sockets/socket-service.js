@@ -1,9 +1,8 @@
-const sqlMethods = require('../sql/sqlMethods');
-const mongoMethods = require('../mongo/mongoMethods');
+const eventsService = require('../events-service');
 const eventStatus = require('../../variables/mongoVars').eventStatus;
 const SOCKET_EVENTS = require('../../variables/socketEvents');
 
-const socketMethods = ((sqlMethods) => {
+const socketMethods = (() => {
 
     const wsUsers = {};
 
@@ -33,14 +32,14 @@ const socketMethods = ((sqlMethods) => {
     };
 
     const rejectEvent = async (socket, id, message) => {
-        let event = await mongoMethods.eventEntityUpdaterById(id, eventStatus.rejected, message);
+        let event = await eventsService.eventStatusUpdater(id, eventStatus.rejected, message);
         emitToUserById(event.PatrolId, SOCKET_EVENTS.callRejected, event);
 
 
     };
 
     const acceptEvent = async (socket, id) => {
-        let event = await mongoMethods.eventEntityUpdaterById(id, eventStatus.accepted);
+        let event = await eventsService.eventStatusUpdater(id, eventStatus.accepted);
 
         emitToUserById(event.PatrolId, SOCKET_EVENTS.callAccepted, event);
 
@@ -59,6 +58,6 @@ return {
     acceptEvent
 }
 
-}) (sqlMethods, mongoMethods);
+}) ();
 
 module.exports = socketMethods;

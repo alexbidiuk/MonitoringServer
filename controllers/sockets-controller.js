@@ -3,8 +3,8 @@ const { JWT_SECRET } = require('../variables/constants');
 const SOCKET_EVENTS = require('../variables/socketEvents');
 
 const socketioJwt = require('socketio-jwt');
-const sqlMethods = require('../services/sql/sqlMethods');
-const socketMethods = require('../services/sockets/socketMethods');
+const sqlMethods = require('../services/sql/sql-service');
+const socketMethods = require('../services/sockets/socket-service');
 
 const socketController = ((socketConnection, socketMethods, sqlMethods) => {
 
@@ -30,7 +30,7 @@ const socketController = ((socketConnection, socketMethods, sqlMethods) => {
                 } );
 
                 socket.on( 'disconnect', () => {
-                    console.log('disconnected socket', socket.decoded_token.id );
+
                     socketMethods.delSocketUser(socket);
                     !socketMethods.getSocketUsersLength() && sqlMethods.removePollingLoopInterval();
                 } );

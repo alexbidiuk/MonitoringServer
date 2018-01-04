@@ -2,9 +2,10 @@ const sql = require('mssql/msnodesqlv8');
 const poolConnection = require('./connection');
 const PROCEDURE_NAMES = require('../../variables/sqlProcedures');
 const POLLING_INTERVAL = require('../../config/sql').POLLING_INTERVAL ;
-const mongoMethods = require('../mongo/mongoMethods');
-const socketMethods = require('../sockets/socketMethods');
+const patrolsService = require('../patrols-service');
+const socketService = require('../sockets/socket-service');
 const eventsService = require('../events-service');
+const objectsService = require('../objects-service');
 // const EVENTS = require('../../variables/pubSubEvents');
 
 const sqlMethods = (() => {
@@ -73,7 +74,7 @@ const sqlMethods = (() => {
             let req = await getPatrolsProcedureExecutor();
             req.on('row', async patrol => {
                 try {
-                    await mongoMethods.patrolEntityHandler( patrol );
+                    await patrolsService.patrolEntityHandler( patrol );
                 } catch (err) {
                     console.log(err);
                 }
@@ -88,7 +89,7 @@ const sqlMethods = (() => {
 
                 let objectPics = await getObjectImagesProcedureExecutor(object.Id);
 
-                let mongoObject = await mongoMethods.objectEntityHandler(object, objectPics);
+                let mongoObject = await objectsService.objectEntityHandler(object, objectPics);
 
                 return mongoObject;
             } catch (err) {
@@ -104,7 +105,8 @@ const sqlMethods = (() => {
 
                     const object = await getObject( event.Account );
 
-                    eventsService.obtainedEventHandler( event, object );
+                    await eventsService.obtainedEventHandler( event, object );
+
                 } catch (err) {
                     console.log(err);
                 }
@@ -176,6 +178,6 @@ const sqlMethods = (() => {
         }
 
 
-}) (poolConnection, mongoMethods, socketMethods, sql);
+}) ();
 
 module.exports = sqlMethods;

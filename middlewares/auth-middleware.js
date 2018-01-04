@@ -3,7 +3,7 @@ const LocalStrategy = require('passport-local'); //локальная страт
 const JwtStrategy = require('passport-jwt').Strategy; // авторизация через JWT
 const ExtractJwt = require('passport-jwt').ExtractJwt; // авторизация через JWT
 
-const sqlMethods = require('../services/sql/sqlMethods');
+const sqlMethods = require('../services/sql/sql-service');
 
 const { JWT_SECRET } = require('../variables/constants');
 
